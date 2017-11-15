@@ -1,0 +1,27 @@
+{
+  "name": "sol-dll",
+  "version": "1.0.0",
+  "description": "Doubly-linked list in Solidity",
+  "scripts": {
+    "test": "eslint ./ && truffle test",
+    "fix": "eslint --fix",
+    "lint": "eslint",
+    "compile": "truffle compile",
+    "publish": "truffle publish"
+  },
+  "contributors": [
+    "Yorke Rhodes",
+    "Cem Ozer",
+    "Aspyn Palatnick"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "truffle": "4.0.1",
+    "truffle-hdwallet-provider": "0.0.3"
+  },
+  "devDependencies": {
+    "eslint": "4.11.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0"
+  }
+}

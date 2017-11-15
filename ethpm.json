@@ -1,0 +1,14 @@
+{
+  "package_name": "dll",
+  "version": "1.0.0",
+  "description": "Doubly-linked list in Solidity",
+  "authors": [
+    "Yorke Rhodes",
+    "Cem Ozer",
+    "Aspyn Palatnick"
+  ],
+  "keywords": [
+    "consensys"
+  ],
+  "license": "Apache 2.0"
+}
