@@ -1,6 +1,6 @@
 {
   "name": "sol-dll",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Doubly-linked list in Solidity",
   "scripts": {
     "test": "eslint ./ && truffle test",
