@@ -3,14 +3,14 @@
 const TestDLL = artifacts.require('TestDLL.sol');
 
 contract('DLL', () => {
-  describe('Function: exists', () => {
+  describe('Function: contains', () => {
     it('Should return false for 0 node', async () => {
       const proxy = await TestDLL.deployed();
 
       await proxy.insert(0, 1, 0);
-      const exists = await proxy.exists(0);
+      const contains = await proxy.contains(0);
 
-      assert.strictEqual(exists, false, 'expected exists to be false');
+      assert.strictEqual(contains, false, 'expected contains to be false');
     });
   });
 });

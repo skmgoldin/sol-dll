@@ -17,7 +17,7 @@ library DLL {
 		return getStart(self) == NULL_NODE_ID;
 	}
 
-	function exists(Data storage self, uint _curr) public view returns (bool) {
+	function contains(Data storage self, uint _curr) public view returns (bool) {
 		if (isEmpty(self) || _curr == NULL_NODE_ID) {
 			return false;
 		} 
@@ -52,7 +52,7 @@ library DLL {
 	*/
 	function insert(Data storage self, uint _prev, uint _curr, uint _next) public {
 		require(_curr != NULL_NODE_ID);
-		require(_prev == NULL_NODE_ID || exists(self, _prev));
+		require(_prev == NULL_NODE_ID || contains(self, _prev));
 		require(getNext(self, _prev) == _next);
 
 		remove(self, _curr);
@@ -65,7 +65,7 @@ library DLL {
 	}
 
 	function remove(Data storage self, uint _curr) public {
-		if (!exists(self, _curr)) {
+		if (!contains(self, _curr)) {
 			return;
 		}
 

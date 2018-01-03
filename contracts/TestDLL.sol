@@ -11,8 +11,8 @@ contract TestDLL {
 		return dll.isEmpty();
 	}
 	
-	function exists(uint _curr) public view returns (bool) {
-		return dll.exists(_curr);
+	function contains(uint _curr) public view returns (bool) {
+		return dll.contains(_curr);
 	}
 
 	function getNext(uint _curr) public view returns (uint) {
