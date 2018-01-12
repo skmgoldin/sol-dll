@@ -1,6 +1,6 @@
 {
   "package_name": "dll",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Doubly-linked list in Solidity",
   "authors": [
     "Yorke Rhodes",
