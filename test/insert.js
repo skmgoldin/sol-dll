@@ -89,6 +89,30 @@ contract('DLL', () => {
       assert.strictEqual(start.toString(10), '10', 'expected start to be 10');
       assert.strictEqual(end.toString(10), '5', 'expected end to be 5');
     });
+
+    it(
+      'Should not allow the last node to be reinserted with itself as the previous node',
+      async () => {
+        const proxy = await TestDLL.deployed();
+
+        try {
+          // The list is currently 0->10->5->0
+          await proxy.insert(5, 5, 0);
+        } catch (err) {
+          assert(utils.isEVMException(err), err.toString());
+
+          // Accountability checks
+          const start = await proxy.getStart();
+          const end = await proxy.getEnd();
+          assert.strictEqual(start.toString(10), '10', 'expected start to be 10');
+          assert.strictEqual(end.toString(10), '5', 'expected end to be 5');
+
+          return;
+        }
+
+        assert(false, 'The last node was re-inserted with itself as the previous node');
+      },
+    );
   });
 });
 
