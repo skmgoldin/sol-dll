@@ -15,6 +15,18 @@ contract('DLL', () => {
       assert.strictEqual(start.toString(10), '1', 'expected start to be 1');
       assert.strictEqual(end.toString(10), '1', 'expected end to be 1');
     });
+
+    it('Should remove a node', async () => {
+      const proxy = await TestDLL.deployed();
+
+      await proxy.insert(1, 2, 0);
+      await proxy.remove(2);
+
+      const start = await proxy.getStart();
+      const end = await proxy.getEnd();
+      assert.strictEqual(start.toString(10), '1', 'expected start to be 1');
+      assert.strictEqual(end.toString(10), '1', 'expected end to be 1');
+    });
   });
 });
 

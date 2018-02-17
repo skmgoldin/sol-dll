@@ -10,45 +10,84 @@ contract('DLL', () => {
 
       try {
         await proxy.insert(0, 0, 0);
-        assert(false, 'Inserted 0 node');
       } catch (err) {
         assert(utils.isEVMException(err), err.toString());
-      }
-    });
 
-    it('Should not allow inserting a node with invalid next node', async () => {
-      const proxy = await TestDLL.deployed();
-
-      try {
-        await proxy.insert(0, 0, 1);
-        assert(false, 'Inserted a node with invalid next node');
-      } catch (err) {
-        assert(utils.isEVMException(err), err.toString());
+        return;
       }
+
+      assert(false, 'Inserted 0 node');
     });
 
     it('Should not allow inserting a node with non-existent prev node', async () => {
       const proxy = await TestDLL.deployed();
 
       try {
-        await proxy.insert(5, 6, 0);
-        assert(false, 'Inserted a node with non-existent prev node');
+        await proxy.insert(4, 5, 0);
       } catch (err) {
         assert(utils.isEVMException(err), err.toString());
+
+        return;
       }
+
+      assert(false, 'Inserted a node with non-existent prev node');
+    });
+
+    it('Should not allow inserting a node with non-existent next node', async () => {
+      const proxy = await TestDLL.deployed();
+
+      try {
+        await proxy.insert(0, 5, 6);
+      } catch (err) {
+        assert(utils.isEVMException(err), err.toString());
+
+        return;
+      }
+
+      assert(false, 'Inserted a node with non-existent next node');
+    });
+
+    it('Should not allow inserting a node with invalid next node', async () => {
+      const proxy = await TestDLL.deployed();
+
+      await proxy.insert(0, 5, 0); // 0->5->0
+      await proxy.insert(5, 10, 0); // 0->5->10->0
+
+      try {
+        await proxy.insert(0, 3, 10);
+      } catch (err) {
+        assert(utils.isEVMException(err), err.toString());
+
+        return;
+      }
+
+      assert(false, 'Inserted a node with invalid next node');
+    });
+
+    it('Should not allow inserting a node with invalid prev node', async () => {
+      const proxy = await TestDLL.deployed();
+
+      try {
+        await proxy.insert(0, 7, 10);
+      } catch (err) {
+        assert(utils.isEVMException(err), err.toString());
+
+        return;
+      }
+
+      assert(false, 'Inserted a node with invalid prev node');
     });
 
     it('Should change the position when inserting an existing node', async () => {
       const proxy = await TestDLL.deployed();
 
-      await proxy.insert(0, 1, 0);
-      await proxy.insert(1, 2, 0);
-      await proxy.insert(2, 1, 0);
+      // The list is currently 0->5->10->0
+      await proxy.insert(10, 5, 0); // 0->10->5->0
 
       const start = await proxy.getStart();
       const end = await proxy.getEnd();
-      assert.strictEqual(start.toString(10), '2', 'expected start to be 2');
-      assert.strictEqual(end.toString(10), '1', 'expected end to be 1');
+      assert.strictEqual(start.toString(10), '10', 'expected start to be 10');
+      assert.strictEqual(end.toString(10), '5', 'expected end to be 5');
     });
   });
 });
