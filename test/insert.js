@@ -78,6 +78,20 @@ contract('DLL', () => {
       assert(false, 'Inserted a node with invalid prev node');
     });
 
+    it('Should not allow inserting a node with invalid prev and next nodes', async () => {
+      const proxy = await TestDLL.deployed();
+
+      try {
+        await proxy.insert(10, 3, 5);
+      } catch (err) {
+        assert(utils.isEVMException(err), err.toString());
+
+        return;
+      }
+
+      assert(false, 'Inserted a node with invalid prev and next nodes');
+    });
+
     it('Should change the position when inserting an existing node', async () => {
       const proxy = await TestDLL.deployed();
 
@@ -111,6 +125,54 @@ contract('DLL', () => {
         }
 
         assert(false, 'The last node was re-inserted with itself as the previous node');
+      },
+    );
+
+    it(
+      'Should not allow the first node to be reinserted with itself as the next node',
+      async () => {
+        const proxy = await TestDLL.deployed();
+
+        try {
+          // The list is currently 0->10->5->0
+          await proxy.insert(0, 10, 10);
+        } catch (err) {
+          assert(utils.isEVMException(err), err.toString());
+
+          // Accountability checks
+          const start = await proxy.getStart();
+          const end = await proxy.getEnd();
+          assert.strictEqual(start.toString(10), '10', 'expected start to be 10');
+          assert.strictEqual(end.toString(10), '5', 'expected end to be 5');
+
+          return;
+        }
+
+        assert(false, 'The first node was re-inserted with itself as the next node');
+      },
+    );
+
+    it(
+      'Should not allow a node to be reinserted with itself as both the prev and next nodes',
+      async () => {
+        const proxy = await TestDLL.deployed();
+
+        try {
+          // The list is currently 0->10->5->0
+          await proxy.insert(10, 10, 10);
+        } catch (err) {
+          assert(utils.isEVMException(err), err.toString());
+
+          // Accountability checks
+          const start = await proxy.getStart();
+          const end = await proxy.getEnd();
+          assert.strictEqual(start.toString(10), '10', 'expected start to be 10');
+          assert.strictEqual(end.toString(10), '5', 'expected end to be 5');
+
+          return;
+        }
+
+        assert(false, 'The node was re-inserted with itself as both the prev and next nodes');
       },
     );
   });

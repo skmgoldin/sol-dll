@@ -20,6 +20,14 @@ contract('DLL', () => {
 
       assert.strictEqual(contains, true, 'expected contains node 1 to be true');
     });
+
+    it('Should return false for a node which does not exist', async () => {
+      const proxy = await TestDLL.deployed();
+
+      const contains = await proxy.contains(2);
+
+      assert.strictEqual(contains, false, 'expected contains node 2 to be false');
+    });
   });
 });
 
